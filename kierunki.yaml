@@ -1,0 +1,39 @@
+# Baza kierunków — stała z roku na rok (aktualizować tylko gdy zmieni się URL).
+# skrot: kod kierunku używany w przydziałach (kolumna "kierunek")
+# plany_url: strona wydziału z rozkładami zajęć (PDF-y do rozpoznania po roku/semestrze/trybie)
+
+kierunki:
+  GP:
+    nazwa: "Gospodarka przestrzenna"
+    wydzial: "Wydział Gospodarki Przestrzennej i Architektury Krajobrazu"
+    plany_url: "https://wgpiak.upwr.edu.pl/studia/kierunki-studiow/gospodarka-przestrzenna/rozklady-zajec"
+
+  IDSaT:
+    nazwa: "Inżynieria danych satelitarnych i kosmicznych"
+    wydzial: "Wydział Inżynierii Kształtowania Środowiska i Geodezji"
+    plany_url: "https://wiksig.upwr.edu.pl/studia/kierunki-studiow/inzynieria-danych-satelitarnych-i-kosmicznych/rozklady-zajec"
+
+  IBezp:
+    nazwa: "Inżynieria bezpieczeństwa"
+    wydzial: "Wydział Inżynierii Kształtowania Środowiska i Geodezji"
+    plany_url: "https://wiksig.upwr.edu.pl/studia/kierunki-studiow/inzynieria-bezpieczenstwa/rozklady-zajec"
+
+  OZE:
+    nazwa: "Odnawialne źródła energii i gospodarka odpadami"
+    wydzial: "Wydział Przyrodniczo-Technologiczny"
+    plany_url: "https://wpt.upwr.edu.pl/studia/kierunki-studiow/odnawialne-zrodla-energii-i-gospodarka-odpadami/plany-zajec"
+
+  TZyw:
+    nazwa: "Technologia żywności i żywienie człowieka"   # do potwierdzenia
+    wydzial: null
+    plany_url: null   # TODO: podaj URL
+
+  ZJiAZ:
+    nazwa: "Zarządzanie jakością i analiza żywności"   # do potwierdzenia
+    wydzial: null
+    plany_url: null   # TODO: podaj URL
+
+  Rol:
+    nazwa: "Rolnictwo"   # do potwierdzenia
+    wydzial: null
+    plany_url: null   # TODO: podaj URL

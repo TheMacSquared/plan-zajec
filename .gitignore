@@ -1,0 +1,6 @@
+# Śmieci WSL/Windows przy pobieraniu plików
+*:Zone.Identifier
+*:mshield
+
+# Lokalne ustawienia Claude Code
+.claude/settings.local.json

@@ -1,0 +1,372 @@
+<title>Plan zajęć — zima 2026/27</title>
+<style>
+  :root {
+    --bg: #f7f8f7;
+    --surface: #ffffff;
+    --ink: #1f2a26;
+    --ink-soft: #5c6b64;
+    --line: #dde3df;
+    --line-soft: #eaeeeb;
+    --w-bg: #d9efd2;
+    --w-border: #7fbf72;
+    --w-ink: #245c1e;
+    --c-bg: #d9e5f2;
+    --c-border: #7fa6cc;
+    --c-ink: #1f4c74;
+    --warn-bg: #fdf3d7;
+    --warn-border: #d9b13b;
+    --warn-ink: #7a5c0a;
+    --conf: #b3362b;
+    --conf-bg: #fbe9e7;
+    --chip: #eef1ef;
+  }
+  :root:not([data-theme="light"]) { }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #171d1a;
+      --surface: #1f2622;
+      --ink: #e4e9e6;
+      --ink-soft: #9aa8a1;
+      --line: #38423c;
+      --line-soft: #2a332e;
+      --w-bg: #24421f;
+      --w-border: #4c8a42;
+      --w-ink: #b5e0ab;
+      --c-bg: #1e3348;
+      --c-border: #4a76a3;
+      --c-ink: #a9c9e8;
+      --warn-bg: #3d3413;
+      --warn-border: #a8892c;
+      --warn-ink: #e6c96a;
+      --conf: #e0776c;
+      --conf-bg: #40201c;
+      --chip: #2a332e;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #171d1a;
+    --surface: #1f2622;
+    --ink: #e4e9e6;
+    --ink-soft: #9aa8a1;
+    --line: #38423c;
+    --line-soft: #2a332e;
+    --w-bg: #24421f;
+    --w-border: #4c8a42;
+    --w-ink: #b5e0ab;
+    --c-bg: #1e3348;
+    --c-border: #4a76a3;
+    --c-ink: #a9c9e8;
+    --warn-bg: #3d3413;
+    --warn-border: #a8892c;
+    --warn-ink: #e6c96a;
+    --conf: #e0776c;
+    --conf-bg: #40201c;
+    --chip: #2a332e;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-variant-numeric: tabular-nums;
+  }
+  main { max-width: 1080px; margin: 0 auto; padding: 28px 20px 60px; }
+
+  header h1 { margin: 0 0 4px; font-size: 1.5rem; letter-spacing: -0.01em; text-wrap: balance; }
+  header .sub { color: var(--ink-soft); font-size: 0.9rem; }
+  .flags { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; }
+  .flag {
+    background: var(--warn-bg); color: var(--warn-ink);
+    border: 1px solid var(--warn-border); border-radius: 4px;
+    padding: 3px 10px; font-size: 0.78rem;
+  }
+
+  nav.tabs { display: flex; gap: 4px; margin: 26px 0 18px; border-bottom: 2px solid var(--line); }
+  nav.tabs button {
+    appearance: none; border: none; background: none; color: var(--ink-soft);
+    font: inherit; font-size: 0.92rem; padding: 8px 14px 10px; cursor: pointer;
+    border-bottom: 2px solid transparent; margin-bottom: -2px;
+  }
+  nav.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+  nav.tabs button:focus-visible { outline: 2px solid var(--c-border); outline-offset: -2px; }
+  .conf-count { color: var(--conf); font-weight: 700; }
+
+  section[hidden] { display: none; }
+
+  .legend { display: flex; gap: 16px; align-items: center; margin: 0 0 12px; font-size: 0.82rem; color: var(--ink-soft); flex-wrap: wrap; }
+  .legend .sw { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: -2px; margin-right: 5px; }
+  .sw.w { background: var(--w-bg); border: 1px solid var(--w-border); }
+  .sw.c { background: var(--c-bg); border: 1px solid var(--c-border); }
+  .sw.k { background: var(--conf-bg); border: 1px solid var(--conf); }
+
+  /* ---- widok kalendarzowy ---- */
+  .cal-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+  .cal { min-width: 860px; padding: 10px 14px 16px; }
+  .cal-axis, .cal-day { display: grid; grid-template-columns: 110px 1fr; align-items: stretch; }
+  .cal-axis .axis-track { position: relative; height: 26px; }
+  .axis-track span {
+    position: absolute; transform: translateX(-50%);
+    font-size: 0.76rem; color: var(--ink-soft); top: 4px;
+  }
+  .cal-day { border-top: 1px solid var(--line-soft); }
+  .cal-day .dname {
+    display: flex; align-items: center; font-weight: 600; font-size: 0.85rem;
+    color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .day-track { position: relative; min-height: 64px; padding: 8px 0; }
+  .day-track .gridline { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--line-soft); }
+  .day-track .gridline.hour { background: var(--line); }
+  .day-track.empty::after {
+    content: "wolne"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: var(--ink-soft); font-size: 0.8rem; opacity: 0.6;
+  }
+  .blk {
+    position: absolute; border-radius: 5px; padding: 4px 8px;
+    font-size: 0.76rem; line-height: 1.3; overflow: hidden;
+    border: 1px solid;
+  }
+  .blk.w { background: var(--w-bg); border-color: var(--w-border); color: var(--w-ink); }
+  .blk.c { background: var(--c-bg); border-color: var(--c-border); color: var(--c-ink); }
+  .blk.conflict { box-shadow: 0 0 0 2px var(--conf); }
+  .blk b { display: block; font-size: 0.78rem; }
+  .blk .t { opacity: 0.85; }
+  .blk .fl { font-size: 0.9em; }
+
+  /* ---- lista ---- */
+  .day-list h3 {
+    margin: 22px 0 8px; font-size: 0.85rem; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--ink-soft);
+  }
+  .day-list h3:first-child { margin-top: 0; }
+  .lrow {
+    display: grid; grid-template-columns: 120px 40px 1fr; gap: 12px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+    padding: 10px 14px; margin-bottom: 6px; align-items: baseline;
+  }
+  .lrow .time { font-weight: 600; }
+  .lrow .forma { font-size: 0.75rem; font-weight: 700; text-align: center; border-radius: 4px; padding: 1px 0; align-self: center; }
+  .lrow .forma.w { background: var(--w-bg); color: var(--w-ink); border: 1px solid var(--w-border); }
+  .lrow .forma.c { background: var(--c-bg); color: var(--c-ink); border: 1px solid var(--c-border); }
+  .lrow .meta { color: var(--ink-soft); font-size: 0.84rem; }
+  .lrow.conflict { border-color: var(--conf); background: var(--conf-bg); }
+
+  /* ---- tabela ---- */
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 780px; font-size: 0.86rem; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  th {
+    font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--ink-soft); border-bottom: 1px solid var(--line);
+  }
+  tr:last-child td { border-bottom: none; }
+  td .uw { color: var(--ink-soft); font-size: 0.8rem; }
+
+  /* ---- konflikty ---- */
+  .conf-card {
+    border: 1px solid var(--conf); border-left-width: 4px; border-radius: 6px;
+    background: var(--surface); padding: 14px 16px; margin-bottom: 12px;
+  }
+  .conf-card h3 { margin: 0 0 6px; font-size: 0.95rem; color: var(--conf); }
+  .conf-card p { margin: 4px 0; font-size: 0.88rem; }
+  .note-card {
+    border: 1px solid var(--line); border-radius: 6px; background: var(--surface);
+    padding: 12px 16px; margin-bottom: 8px; font-size: 0.88rem;
+  }
+  .note-card b { color: var(--ink); }
+  h2.sect { font-size: 1.05rem; margin: 26px 0 12px; }
+  .chip { background: var(--chip); border-radius: 4px; padding: 1px 7px; font-size: 0.78rem; color: var(--ink-soft); }
+
+  /* ---- źródła planów ---- */
+  footer.sources { margin-top: 34px; border-top: 1px solid var(--line); padding-top: 14px; }
+  footer.sources h2 { margin: 0 0 4px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); }
+  footer.sources .hint { margin: 0 0 10px; font-size: 0.82rem; color: var(--ink-soft); }
+  .src-links { display: flex; flex-wrap: wrap; gap: 8px; }
+  .src-links a {
+    display: inline-flex; align-items: baseline; gap: 7px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+    padding: 8px 14px; text-decoration: none; color: var(--ink); font-size: 0.88rem;
+  }
+  .src-links a:hover { border-color: var(--c-border); background: var(--c-bg); color: var(--c-ink); }
+  .src-links a b { font-weight: 700; }
+  .src-links a .wyd { color: var(--ink-soft); font-size: 0.78rem; }
+  .src-links a:hover .wyd { color: inherit; opacity: 0.8; }
+</style>
+
+<main>
+  <header>
+    <h1>Plan zajęć — semestr zimowy 2026/27</h1>
+    <div class="sub">Maciej Karczewski · GP · IDSaT · IBezp · OZE · stan źródeł: 02.09.2026 (OZE: aktualizacja 27.08)</div>
+    <div class="flags">
+      <span class="flag">⚠️ Wszystkie plany są jeszcze projektami / propozycjami</span>
+      <span class="flag">⚠️ GP: brak planu 26/27 — użyto zeszłorocznego (25/26) jako aproksymacji</span>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-view="cal">Kalendarz</button>
+    <button role="tab" aria-selected="false" data-view="list">Lista</button>
+    <button role="tab" aria-selected="false" data-view="tbl">Tabela</button>
+    <button role="tab" aria-selected="false" data-view="conf">Konflikty <span class="conf-count" id="confN"></span></button>
+  </nav>
+
+  <div class="legend">
+    <span><span class="sw w"></span>wykład</span>
+    <span><span class="sw c"></span>ćwiczenia</span>
+    <span><span class="sw k"></span>konflikt</span>
+    <span class="chip">godziny wg planów źródłowych</span>
+  </div>
+
+  <section id="v-cal"><div class="cal-scroll"><div class="cal" id="calRoot"></div></div></section>
+  <section id="v-list" hidden><div class="day-list" id="listRoot"></div></section>
+  <section id="v-tbl" hidden><div class="tbl-scroll" id="tblRoot"></div></section>
+  <section id="v-conf" hidden>
+    <div id="confRoot"></div>
+    <h2 class="sect">Niepewności / do wyjaśnienia</h2>
+    <div id="noteRoot"></div>
+  </section>
+
+  <footer class="sources">
+    <h2>Źródła planów — sprawdź, czy są nowe wersje</h2>
+    <p class="hint">Strony UPWr blokują automatyczne pobieranie (Anubis) — klikaj i sprawdzaj ręcznie w przeglądarce. Stan pobranych PDF-ów: 02.09.2026 (OZE: aktualizacja planu 27.08.2026; pozostałe pobrane 14.08.2026).</p>
+    <div class="src-links">
+      <a href="https://wgpiak.upwr.edu.pl/studia/kierunki-studiow/gospodarka-przestrzenna/rozklady-zajec" target="_blank" rel="noopener"><b>GP</b> Gospodarka przestrzenna <span class="wyd">WGPiAK ↗</span></a>
+      <a href="https://wiksig.upwr.edu.pl/studia/kierunki-studiow/inzynieria-danych-satelitarnych-i-kosmicznych/rozklady-zajec" target="_blank" rel="noopener"><b>IDSaT</b> Inż. danych satelitarnych i kosmicznych <span class="wyd">WIKŚiG ↗</span></a>
+      <a href="https://wiksig.upwr.edu.pl/studia/kierunki-studiow/inzynieria-bezpieczenstwa/rozklady-zajec" target="_blank" rel="noopener"><b>IBezp</b> Inżynieria bezpieczeństwa <span class="wyd">WIKŚiG ↗</span></a>
+      <a href="https://wpt.upwr.edu.pl/studia/kierunki-studiow/odnawialne-zrodla-energii-i-gospodarka-odpadami/plany-zajec" target="_blank" rel="noopener"><b>OZE</b> OZE i gospodarka odpadami <span class="wyd">WPT ↗</span></a>
+    </div>
+  </footer>
+</main>
+
+<script>
+// ===================== DANE (jedyne źródło prawdy) =====================
+// od/do w minutach liczonych mechanicznie z "HH:MM"
+const ZAJECIA = [
+  { dzien:"poniedziałek", od:"08:15", do:"09:00", kier:"GP",    przedmiot:"Statystyka",                   forma:"C", sala:"2.04 H", grupy:"gr 1–2 z 4", flagi:["25/26"] },
+  { dzien:"poniedziałek", od:"09:15", do:"10:00", kier:"GP",    przedmiot:"Statystyka",                   forma:"C", sala:"2.04 H", grupy:"gr 3–4 z 4", flagi:["25/26"] },
+  { dzien:"poniedziałek", od:"12:15", do:"14:00", kier:"IDSaT", przedmiot:"Statystyka matematyczna",      forma:"C", sala:"3.19 H", grupy:"gr 1",       flagi:["projekt"] },
+  { dzien:"wtorek",       od:"08:15", do:"10:00", kier:"IBezp", przedmiot:"Analiza ryzyka",               forma:"W", sala:"II G",   grupy:"całość",     flagi:["projekt","12 spotkań"] },
+  { dzien:"wtorek",       od:"09:30", do:"10:15", kier:"OZE",   przedmiot:"Statystyczna analiza danych",  forma:"W", sala:"2.02",   grupy:"całość",     flagi:["propozycja","akt. 27.08"] },
+  { dzien:"wtorek",       od:"10:15", do:"11:15", kier:"OZE",   przedmiot:"Statystyczna analiza danych",  forma:"C", sala:"2.02",   grupy:"1 slot",     flagi:["propozycja","akt. 27.08"] },
+  { dzien:"wtorek",       od:"10:15", do:"12:00", kier:"IBezp", przedmiot:"Analiza ryzyka",               forma:"C", sala:"3.30 H", grupy:"gr 1",       flagi:["projekt","12 spotkań"] },
+  { dzien:"piątek",       od:"08:15", do:"10:00", kier:"IDSaT", przedmiot:"Statystyka matematyczna",      forma:"W", sala:"G",      grupy:"całość",     flagi:["projekt"] },
+  { dzien:"piątek",       od:"10:15", do:"11:00", kier:"GP",    przedmiot:"Statystyka",                   forma:"W", sala:"M",      grupy:"całość",     flagi:["25/26"] },
+  { dzien:"piątek",       od:"12:15", do:"14:00", kier:"IDSaT", przedmiot:"Statystyka matematyczna",      forma:"C", sala:"2.05 H", grupy:"gr 2 i 3",   flagi:["projekt"] },
+];
+
+const NIEPEWNOSCI = [
+  ["GP", "Plan zeszłoroczny (25/26). Na planie 4 sloty ćwiczeń, w przydziale 2 grupy — które sloty Twoje?"],
+  ["IDSaT", "Przydział C = 1 grupa (30 h), na planie 2 sloty ćwiczeń (pon gr 1 / pt gr 2–3) — który Twój?"],
+  ["OZE", "Przydział C = 2 grupy × 20 h, na planie widoczny 1 slot (wt 10:15–11:15, cały semestr = 20 h dyd.) — gdzie druga grupa? Wykład 45 min/tydz. zgadza się z przydziałem W = 15 h."],
+  ["IBezp", "Przydział W = 12 h, ale blok 8:15–10:00 × 12 spotkań = 24 h dyd. — wykład co 2 tygodnie albo krótszy?"],
+];
+
+const DNI = ["poniedziałek", "wtorek", "środa", "czwartek", "piątek"];
+const min = s => +s.slice(0,2)*60 + +s.slice(3,5);
+const T0 = 8*60, T1 = 14*60+30; // oś 8:00–14:30
+
+// ===================== KONFLIKTY (liczone z danych) =====================
+const konflikty = [];
+for (let i = 0; i < ZAJECIA.length; i++)
+  for (let j = i+1; j < ZAJECIA.length; j++) {
+    const a = ZAJECIA[i], b = ZAJECIA[j];
+    if (a.dzien === b.dzien && min(a.od) < min(b.do) && min(b.od) < min(a.do))
+      konflikty.push([a, b]);
+  }
+const wKonflikcie = new Set(konflikty.flat());
+document.getElementById("confN").textContent = konflikty.length ? `(${konflikty.length})` : "";
+
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const flagTxt = z => z.flagi.length ? " · " + z.flagi.join(" · ") : "";
+
+// ===================== KALENDARZ =====================
+(function renderCal() {
+  const root = document.getElementById("calRoot");
+  let html = '<div class="cal-axis"><div></div><div class="axis-track">';
+  for (let t = T0; t <= T1 - 30; t += 60)
+    html += `<span style="left:${(t-T0)/(T1-T0)*100}%">${Math.floor(t/60)}:00</span>`;
+  html += "</div></div>";
+
+  for (const d of DNI) {
+    const items = ZAJECIA.filter(z => z.dzien === d);
+    // proste szeregowanie w pionie: nakładające się bloki idą do kolejnych "pasów"
+    const lanes = [];
+    for (const z of items.sort((x,y) => min(x.od) - min(y.od))) {
+      let l = 0;
+      while (lanes[l] && lanes[l].some(o => min(o.od) < min(z.do) && min(z.od) < min(o.do))) l++;
+      (lanes[l] = lanes[l] || []).push(z);
+      z._lane = l;
+    }
+    const laneH = 52, pad = 8;
+    const h = Math.max(64, lanes.length * laneH + pad*2);
+    html += `<div class="cal-day"><div class="dname">${d}</div>` +
+            `<div class="day-track${items.length ? "" : " empty"}" style="height:${h}px">`;
+    for (let t = T0; t <= T1; t += 15)
+      html += `<div class="gridline${t % 60 === 0 ? " hour" : ""}" style="left:${(t-T0)/(T1-T0)*100}%"></div>`;
+    for (const z of items) {
+      const l = (min(z.od)-T0)/(T1-T0)*100, wPct = (min(z.do)-min(z.od))/(T1-T0)*100;
+      const cls = `blk ${z.forma.toLowerCase()}${wKonflikcie.has(z) ? " conflict" : ""}`;
+      const fl = z.flagi.includes("25/26") ? ' <span class="fl">⚠️</span>' : "";
+      html += `<div class="${cls}" style="left:${l}%;width:${wPct}%;top:${pad + z._lane*laneH}px;height:${laneH-8}px" ` +
+              `title="${esc(z.kier)} · ${esc(z.przedmiot)} (${z.forma}) ${z.od}–${z.do}, s. ${esc(z.sala)}${esc(flagTxt(z))}">` +
+              `<b>${esc(z.kier)}${fl}</b><span class="t">${z.od}–${z.do} · s. ${esc(z.sala)}</span></div>`;
+    }
+    html += "</div></div>";
+  }
+  root.innerHTML = html;
+})();
+
+// ===================== LISTA =====================
+(function renderList() {
+  const root = document.getElementById("listRoot");
+  let html = "";
+  for (const d of DNI) {
+    const items = ZAJECIA.filter(z => z.dzien === d).sort((x,y) => min(x.od) - min(y.od));
+    if (!items.length) continue;
+    html += `<h3>${d}</h3>`;
+    for (const z of items) {
+      html += `<div class="lrow${wKonflikcie.has(z) ? " conflict" : ""}">` +
+        `<span class="time">${z.od}–${z.do}</span>` +
+        `<span class="forma ${z.forma.toLowerCase()}">${z.forma}</span>` +
+        `<span><b>${esc(z.kier)}</b> — ${esc(z.przedmiot)}<br>` +
+        `<span class="meta">sala ${esc(z.sala)} · ${esc(z.grupy)}${esc(flagTxt(z))}</span></span></div>`;
+    }
+  }
+  root.innerHTML = html;
+})();
+
+// ===================== TABELA =====================
+(function renderTbl() {
+  let html = '<table><thead><tr><th>Dzień</th><th>Od</th><th>Do</th><th>Kierunek</th><th>Przedmiot</th><th>Forma</th><th>Sala</th><th>Grupy</th><th>Uwagi</th></tr></thead><tbody>';
+  for (const z of ZAJECIA)
+    html += `<tr><td>${z.dzien}</td><td>${z.od}</td><td>${z.do}</td><td>${esc(z.kier)}</td>` +
+            `<td>${esc(z.przedmiot)}</td><td>${z.forma}</td><td>${esc(z.sala)}</td>` +
+            `<td>${esc(z.grupy)}</td><td class="uw">${esc(z.flagi.join(", "))}</td></tr>`;
+  document.getElementById("tblRoot").innerHTML = html + "</tbody></table>";
+})();
+
+// ===================== KONFLIKTY (widok) =====================
+(function renderConf() {
+  const root = document.getElementById("confRoot");
+  root.innerHTML = konflikty.length ? konflikty.map(([a,b]) => {
+    const o0 = Math.max(min(a.od), min(b.od)), o1 = Math.min(min(a.do), min(b.do));
+    const f = m => `${Math.floor(m/60)}:${String(m%60).padStart(2,"0")}`;
+    return `<div class="conf-card"><h3>${a.dzien}: nakładanie ${f(o0)}–${f(o1)}</h3>` +
+      `<p><b>${esc(a.kier)}</b> ${esc(a.przedmiot)} (${a.forma}) ${a.od}–${a.do}, s. ${esc(a.sala)}${esc(flagTxt(a))}</p>` +
+      `<p><b>${esc(b.kier)}</b> ${esc(b.przedmiot)} (${b.forma}) ${b.od}–${b.do}, s. ${esc(b.sala)}${esc(flagTxt(b))}</p></div>`;
+  }).join("") : "<p>Brak konfliktów 🎉</p>";
+  document.getElementById("noteRoot").innerHTML = NIEPEWNOSCI
+    .map(([k, t]) => `<div class="note-card"><b>${k}:</b> ${t}</div>`).join("");
+})();
+
+// ===================== ZAKŁADKI =====================
+document.querySelector("nav.tabs").addEventListener("click", e => {
+  const btn = e.target.closest("button[data-view]");
+  if (!btn) return;
+  for (const b of document.querySelectorAll("nav.tabs button"))
+    b.setAttribute("aria-selected", b === btn ? "true" : "false");
+  for (const s of document.querySelectorAll("main > section"))
+    s.hidden = s.id !== "v-" + btn.dataset.view;
+});
+</script>

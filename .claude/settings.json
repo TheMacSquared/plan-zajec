@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(git init *)",
+      "Bash(git branch *)",
+      "Bash(git commit -m 'Początkowy stan projektu: plan zajęć 2026Z \\(przydziały, PDF-y, wygenerowane widoki\\) *)"
+    ]
+  }
+}
