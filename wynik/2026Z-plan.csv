@@ -1,11 +1,13 @@
 dzien,od,do,kierunek,przedmiot,forma,sala,grupy,uwagi,zrodlo
 poniedziałek,08:15,09:00,GP,Statystyka,C,2.04 H,"1,2 z 4","APROKSYMACJA: plan 2025/26",gp__sst_25-26_zima-1022.pdf s.2
 poniedziałek,09:15,10:00,GP,Statystyka,C,2.04 H,"3,4 z 4","APROKSYMACJA: plan 2025/26",gp__sst_25-26_zima-1022.pdf s.2
+poniedziałek,10:15,12:00,-,Konsultacje,K,420G,-,"między zajęciami (GP C do 10:00 / IDSaT C od 12:15)",-
 poniedziałek,12:15,14:00,IDSaT,Statystyka matematyczna,C,3.19 H,gr 1,"PROJEKT 13.08.2026; przydział MKa: 1 grupa (ten slot LUB piątkowy)",idsik_sst_z_26-27__zima_projekt_1308.pdf s.1
-wtorek,08:15,10:00,IBezp,Analiza ryzyka,W,II G,całość,"PROJEKT 04.08.2026; (1)=12 spotkań; przydział W=12h → możliwe 12×1h albo co 2 tyg.",ib_z-26-27_projekt_3.pdf s.4
 wtorek,09:30,10:15,OZE,Statystyczna analiza danych,W,2.02,całość,"PROPOZYCJA aktualizacja 27.08.2026; korekty do 06.09.2026",ozeigo_2627_2_stopien_2_semestr.pdf s.1
 wtorek,10:15,11:15,OZE,Statystyczna analiza danych,C,2.02,1 slot,"PROPOZYCJA aktualizacja 27.08.2026; cały semestr; przydział: 2 grupy po 20h — na planie widać 1 slot",ozeigo_2627_2_stopien_2_semestr.pdf s.1
-wtorek,10:15,12:00,IBezp,Analiza ryzyka,C,3.30 H,gr 1,"PROJEKT 04.08.2026; (1)=12 spotkań",ib_z-26-27_projekt_3.pdf s.4
+środa,12:15,14:00,IBezp,Analiza ryzyka,W,3.30 H,całość,"PROJEKT rok IV sem.7; przeniesiono z wtorku, akt. rozkładu 02.09.2026; (1)=12 spotkań; przydział W=12h → możliwe 12×1h albo co 2 tyg.",rozkład IBezp rok IV sem.7 (zrzut ekranu), akt. 02.09.2026
+środa,14:15,16:00,IBezp,Analiza ryzyka,C,3.30 H,gr 1,"PROJEKT rok IV sem.7; przeniesiono z wtorku, akt. rozkładu 02.09.2026; (1)=12 spotkań",rozkład IBezp rok IV sem.7 (zrzut ekranu), akt. 02.09.2026
 piątek,08:15,10:00,IDSaT,Statystyka matematyczna,W,G,całość,"PROJEKT 13.08.2026",idsik_sst_z_26-27__zima_projekt_1308.pdf s.1
 piątek,10:15,11:00,GP,Statystyka,W,M,całość,"APROKSYMACJA: plan 2025/26",gp__sst_25-26_zima-1022.pdf s.2
+piątek,11:15,12:00,-,Konsultacje,K,420G,-,"między zajęciami (GP W do 11:00 / IDSaT C od 12:15)",-
 piątek,12:15,14:00,IDSaT,Statystyka matematyczna,C,2.05 H,"gr 2 i 3","PROJEKT 13.08.2026; przydział MKa: 1 grupa (ten slot LUB poniedziałkowy)",idsik_sst_z_26-27__zima_projekt_1308.pdf s.1

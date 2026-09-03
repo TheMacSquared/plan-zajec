@@ -16,6 +16,9 @@
     --warn-bg: #fdf3d7;
     --warn-border: #d9b13b;
     --warn-ink: #7a5c0a;
+    --k-bg: #fbe8b8;
+    --k-border: #c9971f;
+    --k-ink: #6b4c08;
     --conf: #b3362b;
     --conf-bg: #fbe9e7;
     --chip: #eef1ef;
@@ -38,6 +41,9 @@
       --warn-bg: #3d3413;
       --warn-border: #a8892c;
       --warn-ink: #e6c96a;
+      --k-bg: #4a3c10;
+      --k-border: #c9971f;
+      --k-ink: #f0cf7a;
       --conf: #e0776c;
       --conf-bg: #40201c;
       --chip: #2a332e;
@@ -59,6 +65,9 @@
     --warn-bg: #3d3413;
     --warn-border: #a8892c;
     --warn-ink: #e6c96a;
+    --k-bg: #4a3c10;
+    --k-border: #c9971f;
+    --k-ink: #f0cf7a;
     --conf: #e0776c;
     --conf-bg: #40201c;
     --chip: #2a332e;
@@ -99,6 +108,7 @@
   .legend .sw { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: -2px; margin-right: 5px; }
   .sw.w { background: var(--w-bg); border: 1px solid var(--w-border); }
   .sw.c { background: var(--c-bg); border: 1px solid var(--c-border); }
+  .sw.kons { background: var(--k-bg); border: 1px solid var(--k-border); }
   .sw.k { background: var(--conf-bg); border: 1px solid var(--conf); }
 
   /* ---- widok kalendarzowy ---- */
@@ -129,6 +139,7 @@
   }
   .blk.w { background: var(--w-bg); border-color: var(--w-border); color: var(--w-ink); }
   .blk.c { background: var(--c-bg); border-color: var(--c-border); color: var(--c-ink); }
+  .blk.k { background: var(--k-bg); border-color: var(--k-border); color: var(--k-ink); }
   .blk.conflict { box-shadow: 0 0 0 2px var(--conf); }
   .blk b { display: block; font-size: 0.78rem; }
   .blk .t { opacity: 0.85; }
@@ -149,6 +160,7 @@
   .lrow .forma { font-size: 0.75rem; font-weight: 700; text-align: center; border-radius: 4px; padding: 1px 0; align-self: center; }
   .lrow .forma.w { background: var(--w-bg); color: var(--w-ink); border: 1px solid var(--w-border); }
   .lrow .forma.c { background: var(--c-bg); color: var(--c-ink); border: 1px solid var(--c-border); }
+  .lrow .forma.k { background: var(--k-bg); color: var(--k-ink); border: 1px solid var(--k-border); }
   .lrow .meta { color: var(--ink-soft); font-size: 0.84rem; }
   .lrow.conflict { border-color: var(--conf); background: var(--conf-bg); }
 
@@ -192,12 +204,25 @@
   .src-links a b { font-weight: 700; }
   .src-links a .wyd { color: var(--ink-soft); font-size: 0.78rem; }
   .src-links a:hover .wyd { color: inherit; opacity: 0.8; }
+
+  /* ---- wydruk: tylko okno z planem (widok kalendarza) ---- */
+  @media print {
+    @page { size: landscape; margin: 12mm; }
+    body { background: #fff; }
+    header .flags, nav.tabs, .legend .chip, footer.sources { display: none; }
+    #v-cal { display: block !important; }
+    #v-list, #v-tbl, #v-conf { display: none !important; }
+    .cal-scroll { border: none; overflow: visible; }
+    .cal { min-width: 0; padding: 0; }
+    main { max-width: none; padding: 0; }
+    .blk { box-shadow: none !important; }
+  }
 </style>
 
 <main>
   <header>
     <h1>Plan zajęć — semestr zimowy 2026/27</h1>
-    <div class="sub">Maciej Karczewski · GP · IDSaT · IBezp · OZE · stan źródeł: 02.09.2026 (OZE: aktualizacja 27.08)</div>
+    <div class="sub">Maciej Karczewski · GP · IDSaT · IBezp · OZE · stan źródeł: 02.09.2026 (OZE: aktualizacja 27.08; IBezp: aktualizacja 02.09 — Analiza ryzyka przeniesiona na środę)</div>
     <div class="flags">
       <span class="flag">⚠️ Wszystkie plany są jeszcze projektami / propozycjami</span>
       <span class="flag">⚠️ GP: brak planu 26/27 — użyto zeszłorocznego (25/26) jako aproksymacji</span>
@@ -214,6 +239,7 @@
   <div class="legend">
     <span><span class="sw w"></span>wykład</span>
     <span><span class="sw c"></span>ćwiczenia</span>
+    <span><span class="sw kons"></span>konsultacje</span>
     <span><span class="sw k"></span>konflikt</span>
     <span class="chip">godziny wg planów źródłowych</span>
   </div>
@@ -245,13 +271,15 @@
 const ZAJECIA = [
   { dzien:"poniedziałek", od:"08:15", do:"09:00", kier:"GP",    przedmiot:"Statystyka",                   forma:"C", sala:"2.04 H", grupy:"gr 1–2 z 4", flagi:["25/26"] },
   { dzien:"poniedziałek", od:"09:15", do:"10:00", kier:"GP",    przedmiot:"Statystyka",                   forma:"C", sala:"2.04 H", grupy:"gr 3–4 z 4", flagi:["25/26"] },
+  { dzien:"poniedziałek", od:"10:15", do:"12:00", kier:"Konsultacje", przedmiot:"",                       forma:"K", sala:"420G", grupy:"-",   flagi:[] },
   { dzien:"poniedziałek", od:"12:15", do:"14:00", kier:"IDSaT", przedmiot:"Statystyka matematyczna",      forma:"C", sala:"3.19 H", grupy:"gr 1",       flagi:["projekt"] },
-  { dzien:"wtorek",       od:"08:15", do:"10:00", kier:"IBezp", przedmiot:"Analiza ryzyka",               forma:"W", sala:"II G",   grupy:"całość",     flagi:["projekt","12 spotkań"] },
   { dzien:"wtorek",       od:"09:30", do:"10:15", kier:"OZE",   przedmiot:"Statystyczna analiza danych",  forma:"W", sala:"2.02",   grupy:"całość",     flagi:["propozycja","akt. 27.08"] },
   { dzien:"wtorek",       od:"10:15", do:"11:15", kier:"OZE",   przedmiot:"Statystyczna analiza danych",  forma:"C", sala:"2.02",   grupy:"1 slot",     flagi:["propozycja","akt. 27.08"] },
-  { dzien:"wtorek",       od:"10:15", do:"12:00", kier:"IBezp", przedmiot:"Analiza ryzyka",               forma:"C", sala:"3.30 H", grupy:"gr 1",       flagi:["projekt","12 spotkań"] },
+  { dzien:"środa",        od:"12:15", do:"14:00", kier:"IBezp", przedmiot:"Analiza ryzyka",               forma:"W", sala:"3.30 H", grupy:"całość",     flagi:["projekt","12 spotkań","przen. z wt."] },
+  { dzien:"środa",        od:"14:15", do:"16:00", kier:"IBezp", przedmiot:"Analiza ryzyka",               forma:"C", sala:"3.30 H", grupy:"gr 1",       flagi:["projekt","12 spotkań","przen. z wt."] },
   { dzien:"piątek",       od:"08:15", do:"10:00", kier:"IDSaT", przedmiot:"Statystyka matematyczna",      forma:"W", sala:"G",      grupy:"całość",     flagi:["projekt"] },
   { dzien:"piątek",       od:"10:15", do:"11:00", kier:"GP",    przedmiot:"Statystyka",                   forma:"W", sala:"M",      grupy:"całość",     flagi:["25/26"] },
+  { dzien:"piątek",       od:"11:15", do:"12:00", kier:"Konsultacje", przedmiot:"",                       forma:"K", sala:"420G", grupy:"-",   flagi:[] },
   { dzien:"piątek",       od:"12:15", do:"14:00", kier:"IDSaT", przedmiot:"Statystyka matematyczna",      forma:"C", sala:"2.05 H", grupy:"gr 2 i 3",   flagi:["projekt"] },
 ];
 
@@ -259,12 +287,12 @@ const NIEPEWNOSCI = [
   ["GP", "Plan zeszłoroczny (25/26). Na planie 4 sloty ćwiczeń, w przydziale 2 grupy — które sloty Twoje?"],
   ["IDSaT", "Przydział C = 1 grupa (30 h), na planie 2 sloty ćwiczeń (pon gr 1 / pt gr 2–3) — który Twój?"],
   ["OZE", "Przydział C = 2 grupy × 20 h, na planie widoczny 1 slot (wt 10:15–11:15, cały semestr = 20 h dyd.) — gdzie druga grupa? Wykład 45 min/tydz. zgadza się z przydziałem W = 15 h."],
-  ["IBezp", "Przydział W = 12 h, ale blok 8:15–10:00 × 12 spotkań = 24 h dyd. — wykład co 2 tygodnie albo krótszy?"],
+  ["IBezp", "Przydział W = 12 h, ale blok 12:15–14:00 × 12 spotkań = ok. 21 h dyd. — wykład co 2 tygodnie albo krótszy? (Analiza ryzyka przeniesiona z wtorku na środę, akt. 02.09.2026.)"],
 ];
 
 const DNI = ["poniedziałek", "wtorek", "środa", "czwartek", "piątek"];
 const min = s => +s.slice(0,2)*60 + +s.slice(3,5);
-const T0 = 8*60, T1 = 14*60+30; // oś 8:00–14:30
+const T0 = 8*60, T1 = 16*60; // oś 8:00–16:00
 
 // ===================== KONFLIKTY (liczone z danych) =====================
 const konflikty = [];
@@ -309,7 +337,7 @@ const flagTxt = z => z.flagi.length ? " · " + z.flagi.join(" · ") : "";
       const cls = `blk ${z.forma.toLowerCase()}${wKonflikcie.has(z) ? " conflict" : ""}`;
       const fl = z.flagi.includes("25/26") ? ' <span class="fl">⚠️</span>' : "";
       html += `<div class="${cls}" style="left:${l}%;width:${wPct}%;top:${pad + z._lane*laneH}px;height:${laneH-8}px" ` +
-              `title="${esc(z.kier)} · ${esc(z.przedmiot)} (${z.forma}) ${z.od}–${z.do}, s. ${esc(z.sala)}${esc(flagTxt(z))}">` +
+              `title="${esc(z.kier)}${z.przedmiot ? " · " + esc(z.przedmiot) : ""} (${z.forma}) ${z.od}–${z.do}, s. ${esc(z.sala)}${esc(flagTxt(z))}">` +
               `<b>${esc(z.kier)}${fl}</b><span class="t">${z.od}–${z.do} · s. ${esc(z.sala)}</span></div>`;
     }
     html += "</div></div>";
@@ -329,7 +357,7 @@ const flagTxt = z => z.flagi.length ? " · " + z.flagi.join(" · ") : "";
       html += `<div class="lrow${wKonflikcie.has(z) ? " conflict" : ""}">` +
         `<span class="time">${z.od}–${z.do}</span>` +
         `<span class="forma ${z.forma.toLowerCase()}">${z.forma}</span>` +
-        `<span><b>${esc(z.kier)}</b> — ${esc(z.przedmiot)}<br>` +
+        `<span><b>${esc(z.kier)}</b>${z.przedmiot ? " — " + esc(z.przedmiot) : ""}<br>` +
         `<span class="meta">sala ${esc(z.sala)} · ${esc(z.grupy)}${esc(flagTxt(z))}</span></span></div>`;
     }
   }
