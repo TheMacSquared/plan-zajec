@@ -101,6 +101,11 @@
   nav.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
   nav.tabs button:focus-visible { outline: 2px solid var(--c-border); outline-offset: -2px; }
   .conf-count { color: var(--conf); font-weight: 700; }
+  nav.tabs .print-btn {
+    margin-left: auto; margin-bottom: 6px; align-self: center;
+    border: 1px solid var(--line); border-radius: 6px; padding: 5px 12px; color: var(--ink);
+  }
+  nav.tabs .print-btn:hover { background: var(--chip); }
 
   section[hidden] { display: none; }
 
@@ -143,6 +148,7 @@
   .blk.conflict { box-shadow: 0 0 0 2px var(--conf); }
   .blk b { display: block; font-size: 0.78rem; }
   .blk .t { opacity: 0.85; }
+  .blk .sala { font-weight: 400; }
   .blk .fl { font-size: 0.9em; }
   .blk { cursor: pointer; white-space: nowrap; text-overflow: ellipsis; }
   .blk:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
@@ -217,17 +223,37 @@
 
   /* ---- wydruk: tylko okno z planem (widok kalendarza) ---- */
   @media print {
-    @page { size: landscape; margin: 12mm; }
-    body { background: #fff; }
+    @page { size: A4 landscape; margin: 10mm; }
+    /* zawsze jasna paleta i kolory tła na wydruku, niezależnie od motywu */
+    :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
+      --bg: #fff; --surface: #fff; --ink: #1f2a26; --ink-soft: #5c6b64;
+      --line: #c9d1cc; --line-soft: #e3e8e5;
+      --w-bg: #d9efd2; --w-border: #7fbf72; --w-ink: #245c1e;
+      --c-bg: #d9e5f2; --c-border: #7fa6cc; --c-ink: #1f4c74;
+      --k-bg: #fbe8b8; --k-border: #c9971f; --k-ink: #6b4c08;
+      --conf: #b3362b; --conf-bg: #fbe9e7; --chip: #eef1ef;
+    }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background: #fff; font-size: 11px; }
+    main { max-width: none; padding: 0; }
+    header h1 { font-size: 16px; }
+    header .sub { font-size: 9px; }
     header .flags, nav.tabs, .legend .chip, footer.sources { display: none; }
+    .legend { margin: 6px 0 6px; font-size: 9px; }
     #v-cal { display: block !important; }
     #v-list, #v-tbl, #v-conf { display: none !important; }
     .cal-scroll { border: none; overflow: visible; }
     .cal { min-width: 0; padding: 0; }
-    main { max-width: none; padding: 0; }
-    .blk { box-shadow: none !important; }
+    .cal-axis, .cal-day { grid-template-columns: 80px 1fr; break-inside: avoid; }
+    .cal-day .dname { font-size: 10px; }
+    .axis-track span { font-size: 10px; }
+    /* krótkie bloki: tekst się zawija zamiast ucinać */
+    .blk { box-shadow: none !important; white-space: normal; overflow: hidden; padding: 2px 4px; font-size: 10px; line-height: 1.2; }
+    .blk b { font-size: 10.5px; }
+    .blk .t { display: block; }
+    .blk .fl { display: none; }
     .blk .more { display: none !important; }
-    .blk.open { white-space: nowrap; overflow: hidden; min-width: 0; }
+    .blk.open { min-width: 0; }
   }
 </style>
 
@@ -245,6 +271,7 @@
     <button role="tab" aria-selected="false" data-view="list">Lista</button>
     <button role="tab" aria-selected="false" data-view="tbl">Tabela</button>
     <button role="tab" aria-selected="false" data-view="conf">Konflikty <span class="conf-count" id="confN"></span></button>
+    <button type="button" class="print-btn" id="printBtn" title="Drukuj kalendarz na jednej stronie A4 (poziomo)">🖨 Drukuj A4</button>
   </nav>
 
   <div class="legend">
@@ -351,7 +378,7 @@ const flagTxt = z => z.flagi.length ? " · " + z.flagi.join(" · ") : "";
       const forma = { W:"wykład", C:"ćwiczenia", K:"konsultacje" }[z.forma];
       html += `<div class="${cls}" tabindex="0" role="button" aria-expanded="false" style="left:${l}%;width:${wPct}%;top:${pad + z._lane*laneH}px;height:${laneH-8}px" ` +
               `title="${esc(z.kier)}${z.przedmiot ? " · " + esc(z.przedmiot) : ""} (${z.forma}) ${z.od}–${z.do}, s. ${esc(z.sala)}${esc(flagTxt(z))}">` +
-              `<b>${esc(z.kier)}${fl}</b><span class="t">${z.od}–${z.do} · s. ${esc(z.sala)}</span>` +
+              `<b>${esc(z.kier)}${fl} <span class="sala">s. ${esc(z.sala)}</span></b><span class="t">${z.od}–${z.do}</span>` +
               `<span class="more">${przed}${forma}${z.grupy !== "-" ? "<br>" + esc(z.grupy) : ""}` +
               `${z.flagi.length ? "<br>" + esc(z.flagi.join(" · ")) : ""}</span></div>`;
     }
@@ -418,6 +445,8 @@ const flagTxt = z => z.flagi.length ? " · " + z.flagi.join(" · ") : "";
   document.getElementById("noteRoot").innerHTML = NIEPEWNOSCI
     .map(([k, t]) => `<div class="note-card"><b>${k}:</b> ${t}</div>`).join("");
 })();
+
+document.getElementById("printBtn").addEventListener("click", () => window.print());
 
 // ===================== ZAKŁADKI =====================
 document.querySelector("nav.tabs").addEventListener("click", e => {
