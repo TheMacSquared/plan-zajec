@@ -4,3 +4,6 @@
 
 # Lokalne ustawienia Claude Code
 .claude/settings.local.json
+
+# Śmieci macOS
+.DS_Store
