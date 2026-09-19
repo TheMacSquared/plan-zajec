@@ -14,20 +14,30 @@ kierunki:
       osoba: "Sławomir Nowak"
       rola: "plan zajęć"
       pokoj: "114 M"
-      tel: "wew. 5520"
+      tel: "71 320 5520"
       email: "slawomir.nowak@upwr.edu.pl"
 
   IDSaT:
     nazwa: "Inżynieria danych satelitarnych i kosmicznych"
     wydzial: "Wydział Inżynierii Kształtowania Środowiska i Geodezji"
     plany_url: "https://wiksig.upwr.edu.pl/studia/kierunki-studiow/inzynieria-danych-satelitarnych-i-kosmicznych/rozklady-zajec"
-    kontakt: null   # TODO: kto odpowiada za plan na IDSaT?
+    kontakt:
+      osoba: "Magdalena Owczarek-Wesołowska"
+      rola: "plan zajęć"
+      pokoj: null
+      tel: "71 320 5520"
+      email: "magdalena.owczarek-wesolowska@upwr.edu.pl"
 
   IBezp:
     nazwa: "Inżynieria bezpieczeństwa"
     wydzial: "Wydział Inżynierii Kształtowania Środowiska i Geodezji"
     plany_url: "https://wiksig.upwr.edu.pl/studia/kierunki-studiow/inzynieria-bezpieczenstwa/rozklady-zajec"
-    kontakt: null   # TODO: kto odpowiada za plan na IBezp?
+    kontakt:
+      osoba: "Rafał Wójcik"
+      rola: "plan zajęć"
+      pokoj: "208 M"
+      tel: "71 320 5593"
+      email: "rafal.wojcik@upwr.edu.pl"
 
   OZE:
     nazwa: "Odnawialne źródła energii i gospodarka odpadami"

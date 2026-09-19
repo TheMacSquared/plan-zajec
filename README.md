@@ -77,9 +77,3 @@ Wyjście:
 ## Wymagania
 
 Python 3 + `pyyaml` (generator), `pdfplumber` (odczyt PDF-ów).
-
-## Historia
-
-Wcześniej informacje organizacyjne (kontakty, statusy, sprawy) leżały w luźnym
-pliku `plan-semestr-zimowy-2025-26.md` w katalogu głównym repozytorium — teraz
-w `_archive/`, a treść rozłożona na `kierunki.yaml` i `stan/<ROK>.yaml`.
