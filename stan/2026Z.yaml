@@ -17,34 +17,26 @@ flagi_globalne:
 # status: czekam | ustalone | do_zmiany | brak_planu
 kierunki:
   GP:
-    status: do_zmiany
-    status_opis: "Propozycja 26/27; wykład przeniesiony na pt 11:15. Nie wiadomo, które 2 z 4 slotów ćwiczeń są moje."
-    sprawy:
-      - "Dopytać, które sloty ćwiczeń (z 4 na planie) są przydzielone mnie — przydział to 2 grupy."
+    status: ustalone
+    status_opis: "Propozycja 26/27; wykład przeniesiony na pt 11:15. Grupy ćwiczeniowe są łączone — prowadzę wszystkie sloty razem z drugim prowadzącym."
+    sprawy: []
   IDSaT:
-    status: do_zmiany
-    status_opis: "Projekt planu 13.08.2026. Przydział C = 1 grupa, na planie 2 sloty (pon / pt)."
+    status: ustalone
+    status_opis: "Projekt planu 13.08.2026. Oba sloty ćwiczeń (pon gr 1 / pt gr 2–3) są łączone i moje."
     sprawy:
-      - "Ustalić, który slot ćwiczeń jest mój: pon 12:15 (gr 1) czy pt 12:15 (gr 2 i 3)."
       - "Znaleźć osobę kontaktową ws. planu na IDSaT (kierunki.yaml → kontakt)."
   IBezp:
-    status: do_zmiany
-    status_opis: "Projekt rok IV sem. 7; Analiza ryzyka przeniesiona z wtorku na środę (akt. 02.09.2026)."
+    status: ustalone
+    status_opis: "Projekt rok IV sem. 7; Analiza ryzyka przeniesiona z wtorku na środę (akt. 02.09.2026). Harmonogram: 12 spotkań po 2h + 2h co dwa tygodnie."
     sprawy:
-      - "Wyjaśnić rozbieżność: przydział W = 12 h, a blok 12:15–14:00 × 12 spotkań ≈ 21 h dyd. — czy wykład jest co 2 tygodnie?"
       - "Znaleźć osobę kontaktową ws. planu na IBezp (kierunki.yaml → kontakt)."
   OZE:
-    status: czekam
-    status_opis: "Propozycja, aktualizacja 27.08.2026; korekty przyjmowane do 06.09.2026."
-    sprawy:
-      - "Napisać do Marii Kozłowskiej: przydział C = 2 grupy × 20 h, na planie widoczny 1 slot — gdzie druga grupa?"
+    status: ustalone
+    status_opis: "Propozycja, aktualizacja 27.08.2026. Przedmiot docelowo ma tylko jedną grupę ćwiczeniową (błąd w przydziałach — wyjaśnione)."
+    sprawy: []
 
 # Niepewności merytoryczne (godziny vs przydział) — pokazywane w zakładce Konflikty.
-niepewnosci:
-  - [GP, "Propozycja 26/27. Na planie 4 sloty ćwiczeń, w przydziale 2 grupy — które sloty Twoje?"]
-  - [IDSaT, "Przydział C = 1 grupa (30 h), na planie 2 sloty ćwiczeń (pon gr 1 / pt gr 2–3) — który Twój?"]
-  - [OZE, "Przydział C = 2 grupy × 20 h, na planie widoczny 1 slot (wt 10:15–11:15, cały semestr = 20 h dyd.) — gdzie druga grupa? Wykład 45 min/tydz. zgadza się z przydziałem W = 15 h."]
-  - [IBezp, "Przydział W = 12 h, ale blok 12:15–14:00 × 12 spotkań = ok. 21 h dyd. — wykład co 2 tygodnie albo krótszy? (Analiza ryzyka przeniesiona z wtorku na środę, akt. 02.09.2026.)"]
+niepewnosci: []
 
 # Notatki ogólne — nieprzypisane do kierunku.
 notatki:
