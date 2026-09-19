@@ -1,4 +1,8 @@
-<title>Plan zajęć — zima 2026/27</title>
+<!doctype html>
+<html lang="pl">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plan zajęć — semestr zimowy 2026/27</title>
 <style>
   :root {
     --bg: #f7f8f7;
@@ -206,6 +210,32 @@
   h2.sect { font-size: 1.05rem; margin: 26px 0 12px; }
   .chip { background: var(--chip); border-radius: 4px; padding: 1px 7px; font-size: 0.78rem; color: var(--ink-soft); }
 
+  /* ---- kontakty / sprawy ---- */
+  .kier-card {
+    border: 1px solid var(--line); border-left-width: 4px; border-radius: 6px;
+    background: var(--surface); padding: 14px 16px; margin-bottom: 10px;
+  }
+  .kier-card.st-ustalone   { border-left-color: var(--w-border); }
+  .kier-card.st-czekam     { border-left-color: var(--warn-border); }
+  .kier-card.st-do_zmiany  { border-left-color: var(--k-border); }
+  .kier-card.st-brak_planu { border-left-color: var(--conf); }
+  .kier-card > header { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; margin-bottom: 6px; }
+  .kier-card h3 { margin: 0; font-size: 0.98rem; }
+  .kier-card h3 .nazwa { font-weight: 400; color: var(--ink-soft); font-size: 0.86rem; }
+  .st-badge { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; border-radius: 4px; padding: 2px 8px; border: 1px solid; }
+  .st-badge.st-ustalone   { background: var(--w-bg);    color: var(--w-ink);    border-color: var(--w-border); }
+  .st-badge.st-czekam     { background: var(--warn-bg); color: var(--warn-ink); border-color: var(--warn-border); }
+  .st-badge.st-do_zmiany  { background: var(--k-bg);    color: var(--k-ink);    border-color: var(--k-border); }
+  .st-badge.st-brak_planu { background: var(--conf-bg); color: var(--conf);     border-color: var(--conf); }
+  .kier-card .opis { margin: 0 0 8px; font-size: 0.88rem; color: var(--ink-soft); }
+  .kontakt { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.86rem; margin: 0 0 8px; }
+  .kontakt .osoba { font-weight: 600; }
+  .kontakt .brak { color: var(--ink-soft); font-style: italic; }
+  .kontakt a { color: var(--c-ink); text-decoration: none; border-bottom: 1px solid var(--c-border); }
+  .sprawy { margin: 6px 0 0; padding-left: 20px; font-size: 0.88rem; }
+  .sprawy li { margin-bottom: 4px; }
+  .sprawy li.done { color: var(--ink-soft); text-decoration: line-through; }
+
   /* ---- źródła planów ---- */
   footer.sources { margin-top: 34px; border-top: 1px solid var(--line); padding-top: 14px; }
   footer.sources h2 { margin: 0 0 4px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); }
@@ -241,7 +271,7 @@
     header .flags, nav.tabs, .legend .chip, footer.sources { display: none; }
     .legend { margin: 6px 0 6px; font-size: 9px; }
     #v-cal { display: block !important; }
-    #v-list, #v-tbl, #v-conf { display: none !important; }
+    #v-list, #v-tbl, #v-conf, #v-kont { display: none !important; }
     .cal-scroll { border: none; overflow: visible; }
     .cal { min-width: 0; padding: 0; }
     .cal-axis, .cal-day { grid-template-columns: 80px 1fr; break-inside: avoid; }
@@ -260,7 +290,7 @@
 <main>
   <header>
     <h1>Plan zajęć — semestr zimowy 2026/27</h1>
-    <div class="sub">Maciej Karczewski · GP · IDSaT · IBezp · OZE · stan źródeł: 02.09.2026 (OZE: aktualizacja 27.08; IBezp: aktualizacja 02.09 — Analiza ryzyka przeniesiona na środę; GP: propozycja 26/27 — wykład na pt 11:15)</div>
+    <div class="sub">Maciej Karczewski · GP · IDSaT · IBezp · OZE · stan źródeł: 02.09.2026 — OZE: aktualizacja planu 27.08.2026; IBezp: aktualizacja rozkładu 02.09.2026 — Analiza ryzyka przeniesiona z wtorku na środę; GP: propozycja 26/27, info 14.09.2026 — wykład przeniesiony na pt 11:15–12:00; pozostałe pobrane 14.08.2026.</div>
     <div class="flags">
       <span class="flag">⚠️ Wszystkie plany są jeszcze projektami / propozycjami</span>
     </div>
@@ -271,6 +301,7 @@
     <button role="tab" aria-selected="false" data-view="list">Lista</button>
     <button role="tab" aria-selected="false" data-view="tbl">Tabela</button>
     <button role="tab" aria-selected="false" data-view="conf">Konflikty <span class="conf-count" id="confN"></span></button>
+    <button role="tab" aria-selected="false" data-view="kont">Kontakty / sprawy <span class="conf-count" id="sprawyN"></span></button>
     <button type="button" class="print-btn" id="printBtn" title="Drukuj kalendarz na jednej stronie A4 (poziomo)">🖨 Drukuj A4</button>
   </nav>
 
@@ -290,47 +321,294 @@
     <h2 class="sect">Niepewności / do wyjaśnienia</h2>
     <div id="noteRoot"></div>
   </section>
+  <section id="v-kont" hidden>
+    <div id="kontRoot"></div>
+    <h2 class="sect">Notatki ogólne</h2>
+    <div id="notatkiRoot"></div>
+  </section>
 
   <footer class="sources">
     <h2>Źródła planów — sprawdź, czy są nowe wersje</h2>
-    <p class="hint">Strony UPWr blokują automatyczne pobieranie (Anubis) — klikaj i sprawdzaj ręcznie w przeglądarce. Stan pobranych PDF-ów: 02.09.2026 (OZE: aktualizacja planu 27.08.2026; GP: propozycja 26/27, info 14.09.2026; pozostałe pobrane 14.08.2026).</p>
+    <p class="hint">Strony UPWr blokują automatyczne pobieranie (Anubis) — klikaj i sprawdzaj ręcznie w przeglądarce. Stan pobranych PDF-ów: 02.09.2026.</p>
     <div class="src-links">
-      <a href="https://wgpiak.upwr.edu.pl/studia/kierunki-studiow/gospodarka-przestrzenna/rozklady-zajec" target="_blank" rel="noopener"><b>GP</b> Gospodarka przestrzenna <span class="wyd">WGPiAK ↗</span></a>
-      <a href="https://wiksig.upwr.edu.pl/studia/kierunki-studiow/inzynieria-danych-satelitarnych-i-kosmicznych/rozklady-zajec" target="_blank" rel="noopener"><b>IDSaT</b> Inż. danych satelitarnych i kosmicznych <span class="wyd">WIKŚiG ↗</span></a>
-      <a href="https://wiksig.upwr.edu.pl/studia/kierunki-studiow/inzynieria-bezpieczenstwa/rozklady-zajec" target="_blank" rel="noopener"><b>IBezp</b> Inżynieria bezpieczeństwa <span class="wyd">WIKŚiG ↗</span></a>
-      <a href="https://wpt.upwr.edu.pl/studia/kierunki-studiow/odnawialne-zrodla-energii-i-gospodarka-odpadami/plany-zajec" target="_blank" rel="noopener"><b>OZE</b> OZE i gospodarka odpadami <span class="wyd">WPT ↗</span></a>
+      <a href="https://wgpiak.upwr.edu.pl/studia/kierunki-studiow/gospodarka-przestrzenna/rozklady-zajec" target="_blank" rel="noopener"><b>GP</b> Gospodarka przestrzenna <span class="wyd">wGPiAK ↗</span></a>
+      <a href="https://wiksig.upwr.edu.pl/studia/kierunki-studiow/inzynieria-danych-satelitarnych-i-kosmicznych/rozklady-zajec" target="_blank" rel="noopener"><b>IDSaT</b> Inżynieria danych satelitarnych i kosmicznych <span class="wyd">wIKŚiG ↗</span></a>
+      <a href="https://wiksig.upwr.edu.pl/studia/kierunki-studiow/inzynieria-bezpieczenstwa/rozklady-zajec" target="_blank" rel="noopener"><b>IBezp</b> Inżynieria bezpieczeństwa <span class="wyd">wIKŚiG ↗</span></a>
+      <a href="https://wpt.upwr.edu.pl/studia/kierunki-studiow/odnawialne-zrodla-energii-i-gospodarka-odpadami/plany-zajec" target="_blank" rel="noopener"><b>OZE</b> Odnawialne źródła energii i gospodarka odpadami <span class="wyd">wPT ↗</span></a>
     </div>
   </footer>
 </main>
 
 <script>
-// ===================== DANE (jedyne źródło prawdy) =====================
-// od/do w minutach liczonych mechanicznie z "HH:MM"
+// ===================== DANE (generowane z plików YAML — nie edytuj tu) ====
 const ZAJECIA = [
-  { dzien:"poniedziałek", od:"08:15", do:"09:00", kier:"GP",    przedmiot:"Statystyka",                   forma:"C", sala:"2.04 H", grupy:"gr 1–2 z 4", flagi:["propozycja 26/27"] },
-  { dzien:"poniedziałek", od:"09:15", do:"10:00", kier:"GP",    przedmiot:"Statystyka",                   forma:"C", sala:"2.04 H", grupy:"gr 3–4 z 4", flagi:["propozycja 26/27"] },
-  { dzien:"poniedziałek", od:"10:15", do:"12:00", kier:"Konsultacje", przedmiot:"",                       forma:"K", sala:"420G", grupy:"-",   flagi:[] },
-  { dzien:"poniedziałek", od:"12:15", do:"14:00", kier:"IDSaT", przedmiot:"Statystyka matematyczna",      forma:"C", sala:"3.19 H", grupy:"gr 1",       flagi:["projekt"] },
-  { dzien:"wtorek",       od:"09:30", do:"10:15", kier:"OZE",   przedmiot:"Statystyczna analiza danych",  forma:"W", sala:"2.02",   grupy:"całość",     flagi:["propozycja","akt. 27.08"] },
-  { dzien:"wtorek",       od:"10:15", do:"11:15", kier:"OZE",   przedmiot:"Statystyczna analiza danych",  forma:"C", sala:"2.02",   grupy:"1 slot",     flagi:["propozycja","akt. 27.08"] },
-  { dzien:"środa",        od:"12:15", do:"14:00", kier:"IBezp", przedmiot:"Analiza ryzyka",               forma:"W", sala:"3.30 H", grupy:"całość",     flagi:["projekt","12 spotkań","przen. z wt."] },
-  { dzien:"środa",        od:"14:15", do:"16:00", kier:"IBezp", przedmiot:"Analiza ryzyka",               forma:"C", sala:"3.30 H", grupy:"gr 1",       flagi:["projekt","12 spotkań","przen. z wt."] },
-  { dzien:"piątek",       od:"08:15", do:"10:00", kier:"IDSaT", przedmiot:"Statystyka matematyczna",      forma:"W", sala:"II G",   grupy:"całość",     flagi:["projekt"] },
-  { dzien:"piątek",       od:"10:15", do:"11:00", kier:"Konsultacje", przedmiot:"",                       forma:"K", sala:"420G", grupy:"-",   flagi:[] },
-  { dzien:"piątek",       od:"11:15", do:"12:00", kier:"GP",    przedmiot:"Statystyka",                   forma:"W", sala:"I M",    grupy:"całość",     flagi:["propozycja 26/27"] },
-  { dzien:"piątek",       od:"12:15", do:"14:00", kier:"IDSaT", przedmiot:"Statystyka matematyczna",      forma:"C", sala:"2.05 H", grupy:"gr 2 i 3",   flagi:["projekt"] },
+  {
+    "dzien": "poniedziałek",
+    "od": "08:15",
+    "do": "09:00",
+    "kier": "GP",
+    "przedmiot": "Statystyka",
+    "forma": "C",
+    "sala": "2.04 H",
+    "grupy": "gr 1–2 z 4",
+    "flagi": [
+      "propozycja 26/27"
+    ],
+    "zrodlo": "gp__sst_26-27_zima-0911a.pdf"
+  },
+  {
+    "dzien": "poniedziałek",
+    "od": "09:15",
+    "do": "10:00",
+    "kier": "GP",
+    "przedmiot": "Statystyka",
+    "forma": "C",
+    "sala": "2.04 H",
+    "grupy": "gr 3–4 z 4",
+    "flagi": [
+      "propozycja 26/27"
+    ],
+    "zrodlo": "gp__sst_26-27_zima-0911a.pdf"
+  },
+  {
+    "dzien": "poniedziałek",
+    "od": "10:15",
+    "do": "12:00",
+    "kier": "Konsultacje",
+    "przedmiot": "",
+    "forma": "K",
+    "sala": "420G",
+    "grupy": "-",
+    "flagi": [],
+    "zrodlo": ""
+  },
+  {
+    "dzien": "poniedziałek",
+    "od": "12:15",
+    "do": "14:00",
+    "kier": "IDSaT",
+    "przedmiot": "Statystyka matematyczna",
+    "forma": "C",
+    "sala": "3.19 H",
+    "grupy": "gr 1",
+    "flagi": [
+      "projekt"
+    ],
+    "zrodlo": "idsik_sst_z_26-27__zima_projekt_1308.pdf s.1"
+  },
+  {
+    "dzien": "wtorek",
+    "od": "09:30",
+    "do": "10:15",
+    "kier": "OZE",
+    "przedmiot": "Statystyczna analiza danych",
+    "forma": "W",
+    "sala": "2.02",
+    "grupy": "całość",
+    "flagi": [
+      "propozycja",
+      "akt. 27.08"
+    ],
+    "zrodlo": "ozeigo_2627_2_stopien_2_semestr.pdf s.1"
+  },
+  {
+    "dzien": "wtorek",
+    "od": "10:15",
+    "do": "11:15",
+    "kier": "OZE",
+    "przedmiot": "Statystyczna analiza danych",
+    "forma": "C",
+    "sala": "2.02",
+    "grupy": "1 slot",
+    "flagi": [
+      "propozycja",
+      "akt. 27.08"
+    ],
+    "zrodlo": "ozeigo_2627_2_stopien_2_semestr.pdf s.1"
+  },
+  {
+    "dzien": "środa",
+    "od": "12:15",
+    "do": "14:00",
+    "kier": "IBezp",
+    "przedmiot": "Analiza ryzyka",
+    "forma": "W",
+    "sala": "3.30 H",
+    "grupy": "całość",
+    "flagi": [
+      "projekt",
+      "12 spotkań",
+      "przen. z wt."
+    ],
+    "zrodlo": "rozkład IBezp rok IV sem.7 (zrzut ekranu), akt. 02.09.2026"
+  },
+  {
+    "dzien": "środa",
+    "od": "14:15",
+    "do": "16:00",
+    "kier": "IBezp",
+    "przedmiot": "Analiza ryzyka",
+    "forma": "C",
+    "sala": "3.30 H",
+    "grupy": "gr 1",
+    "flagi": [
+      "projekt",
+      "12 spotkań",
+      "przen. z wt."
+    ],
+    "zrodlo": "rozkład IBezp rok IV sem.7 (zrzut ekranu), akt. 02.09.2026"
+  },
+  {
+    "dzien": "piątek",
+    "od": "08:15",
+    "do": "10:00",
+    "kier": "IDSaT",
+    "przedmiot": "Statystyka matematyczna",
+    "forma": "W",
+    "sala": "II G",
+    "grupy": "całość",
+    "flagi": [
+      "projekt"
+    ],
+    "zrodlo": "idsik_sst_z_26-27__zima_projekt_1308.pdf s.1"
+  },
+  {
+    "dzien": "piątek",
+    "od": "10:15",
+    "do": "11:00",
+    "kier": "Konsultacje",
+    "przedmiot": "",
+    "forma": "K",
+    "sala": "420G",
+    "grupy": "-",
+    "flagi": [],
+    "zrodlo": ""
+  },
+  {
+    "dzien": "piątek",
+    "od": "11:15",
+    "do": "12:00",
+    "kier": "GP",
+    "przedmiot": "Statystyka",
+    "forma": "W",
+    "sala": "I M",
+    "grupy": "całość",
+    "flagi": [
+      "propozycja 26/27"
+    ],
+    "zrodlo": "gp__sst_26-27_zima-0911a.pdf"
+  },
+  {
+    "dzien": "piątek",
+    "od": "12:15",
+    "do": "14:00",
+    "kier": "IDSaT",
+    "przedmiot": "Statystyka matematyczna",
+    "forma": "C",
+    "sala": "2.05 H",
+    "grupy": "gr 2 i 3",
+    "flagi": [
+      "projekt"
+    ],
+    "zrodlo": "idsik_sst_z_26-27__zima_projekt_1308.pdf s.1"
+  }
 ];
 
+const OS_CZASU = {"od": "08:00", "do": "16:00"};
+
 const NIEPEWNOSCI = [
-  ["GP", "Propozycja 26/27. Na planie 4 sloty ćwiczeń, w przydziale 2 grupy — które sloty Twoje?"],
-  ["IDSaT", "Przydział C = 1 grupa (30 h), na planie 2 sloty ćwiczeń (pon gr 1 / pt gr 2–3) — który Twój?"],
-  ["OZE", "Przydział C = 2 grupy × 20 h, na planie widoczny 1 slot (wt 10:15–11:15, cały semestr = 20 h dyd.) — gdzie druga grupa? Wykład 45 min/tydz. zgadza się z przydziałem W = 15 h."],
-  ["IBezp", "Przydział W = 12 h, ale blok 12:15–14:00 × 12 spotkań = ok. 21 h dyd. — wykład co 2 tygodnie albo krótszy? (Analiza ryzyka przeniesiona z wtorku na środę, akt. 02.09.2026.)"],
+  [
+    "GP",
+    "Propozycja 26/27. Na planie 4 sloty ćwiczeń, w przydziale 2 grupy — które sloty Twoje?"
+  ],
+  [
+    "IDSaT",
+    "Przydział C = 1 grupa (30 h), na planie 2 sloty ćwiczeń (pon gr 1 / pt gr 2–3) — który Twój?"
+  ],
+  [
+    "OZE",
+    "Przydział C = 2 grupy × 20 h, na planie widoczny 1 slot (wt 10:15–11:15, cały semestr = 20 h dyd.) — gdzie druga grupa? Wykład 45 min/tydz. zgadza się z przydziałem W = 15 h."
+  ],
+  [
+    "IBezp",
+    "Przydział W = 12 h, ale blok 12:15–14:00 × 12 spotkań = ok. 21 h dyd. — wykład co 2 tygodnie albo krótszy? (Analiza ryzyka przeniesiona z wtorku na środę, akt. 02.09.2026.)"
+  ]
+];
+
+const KIERUNKI = [
+  {
+    "kod": "GP",
+    "nazwa": "Gospodarka przestrzenna",
+    "wydzial": "Wydział Gospodarki Przestrzennej i Architektury Krajobrazu",
+    "plany_url": "https://wgpiak.upwr.edu.pl/studia/kierunki-studiow/gospodarka-przestrzenna/rozklady-zajec",
+    "kontakt": {
+      "osoba": "Sławomir Nowak",
+      "rola": "plan zajęć",
+      "pokoj": "114 M",
+      "tel": "wew. 5520",
+      "email": "slawomir.nowak@upwr.edu.pl"
+    },
+    "status": "do_zmiany",
+    "status_opis": "Propozycja 26/27; wykład przeniesiony na pt 11:15. Nie wiadomo, które 2 z 4 slotów ćwiczeń są moje.",
+    "sprawy": [
+      "Dopytać, które sloty ćwiczeń (z 4 na planie) są przydzielone mnie — przydział to 2 grupy."
+    ]
+  },
+  {
+    "kod": "IDSaT",
+    "nazwa": "Inżynieria danych satelitarnych i kosmicznych",
+    "wydzial": "Wydział Inżynierii Kształtowania Środowiska i Geodezji",
+    "plany_url": "https://wiksig.upwr.edu.pl/studia/kierunki-studiow/inzynieria-danych-satelitarnych-i-kosmicznych/rozklady-zajec",
+    "kontakt": null,
+    "status": "do_zmiany",
+    "status_opis": "Projekt planu 13.08.2026. Przydział C = 1 grupa, na planie 2 sloty (pon / pt).",
+    "sprawy": [
+      "Ustalić, który slot ćwiczeń jest mój: pon 12:15 (gr 1) czy pt 12:15 (gr 2 i 3).",
+      "Znaleźć osobę kontaktową ws. planu na IDSaT (kierunki.yaml → kontakt)."
+    ]
+  },
+  {
+    "kod": "IBezp",
+    "nazwa": "Inżynieria bezpieczeństwa",
+    "wydzial": "Wydział Inżynierii Kształtowania Środowiska i Geodezji",
+    "plany_url": "https://wiksig.upwr.edu.pl/studia/kierunki-studiow/inzynieria-bezpieczenstwa/rozklady-zajec",
+    "kontakt": null,
+    "status": "do_zmiany",
+    "status_opis": "Projekt rok IV sem. 7; Analiza ryzyka przeniesiona z wtorku na środę (akt. 02.09.2026).",
+    "sprawy": [
+      "Wyjaśnić rozbieżność: przydział W = 12 h, a blok 12:15–14:00 × 12 spotkań ≈ 21 h dyd. — czy wykład jest co 2 tygodnie?",
+      "Znaleźć osobę kontaktową ws. planu na IBezp (kierunki.yaml → kontakt)."
+    ]
+  },
+  {
+    "kod": "OZE",
+    "nazwa": "Odnawialne źródła energii i gospodarka odpadami",
+    "wydzial": "Wydział Przyrodniczo-Technologiczny",
+    "plany_url": "https://wpt.upwr.edu.pl/studia/kierunki-studiow/odnawialne-zrodla-energii-i-gospodarka-odpadami/plany-zajec",
+    "kontakt": {
+      "osoba": "Maria Kozłowska",
+      "rola": "plan zajęć",
+      "pokoj": null,
+      "tel": "71 320 1543",
+      "email": "maria.kozlowska@upwr.edu.pl"
+    },
+    "status": "czekam",
+    "status_opis": "Propozycja, aktualizacja 27.08.2026; korekty przyjmowane do 06.09.2026.",
+    "sprawy": [
+      "Napisać do Marii Kozłowskiej: przydział C = 2 grupy × 20 h, na planie widoczny 1 slot — gdzie druga grupa?"
+    ]
+  }
+];
+
+const NOTATKI = [
+  "Preferowane duże sale dla łączonych grup; wymagane oprogramowanie statystyczne w salach komputerowych.",
+  "Optymalizacja planu — unikać wczesnych godzin i dużych przerw między blokami.",
+  "Strony UPWr blokują automatyczne pobieranie (Anubis) — PDF-y ściągać ręcznie przez przeglądarkę."
 ];
 
 const DNI = ["poniedziałek", "wtorek", "środa", "czwartek", "piątek"];
 const min = s => +s.slice(0,2)*60 + +s.slice(3,5);
-const T0 = 8*60, T1 = 16*60; // oś 8:00–16:00
+const T0 = min(OS_CZASU.od), T1 = min(OS_CZASU.do); // oś z dane/<rok>-zajecia.yaml
 
 // ===================== KONFLIKTY (liczone z danych) =====================
 const konflikty = [];
@@ -424,11 +702,12 @@ const flagTxt = z => z.flagi.length ? " · " + z.flagi.join(" · ") : "";
 
 // ===================== TABELA =====================
 (function renderTbl() {
-  let html = '<table><thead><tr><th>Dzień</th><th>Od</th><th>Do</th><th>Kierunek</th><th>Przedmiot</th><th>Forma</th><th>Sala</th><th>Grupy</th><th>Uwagi</th></tr></thead><tbody>';
+  let html = '<table><thead><tr><th>Dzień</th><th>Od</th><th>Do</th><th>Kierunek</th><th>Przedmiot</th><th>Forma</th><th>Sala</th><th>Grupy</th><th>Uwagi</th><th>Źródło</th></tr></thead><tbody>';
   for (const z of ZAJECIA)
     html += `<tr><td>${z.dzien}</td><td>${z.od}</td><td>${z.do}</td><td>${esc(z.kier)}</td>` +
             `<td>${esc(z.przedmiot)}</td><td>${z.forma}</td><td>${esc(z.sala)}</td>` +
-            `<td>${esc(z.grupy)}</td><td class="uw">${esc(z.flagi.join(", "))}</td></tr>`;
+            `<td>${esc(z.grupy)}</td><td class="uw">${esc(z.flagi.join(", "))}</td>` +
+            `<td class="uw">${esc(z.zrodlo || "")}</td></tr>`;
   document.getElementById("tblRoot").innerHTML = html + "</tbody></table>";
 })();
 
@@ -448,6 +727,43 @@ const flagTxt = z => z.flagi.length ? " · " + z.flagi.join(" · ") : "";
 
 document.getElementById("printBtn").addEventListener("click", () => window.print());
 
+// ===================== KONTAKTY / SPRAWY =====================
+(function renderKont() {
+  const nazwaStatusu = {
+    ustalone: "ustalone", czekam: "czekam na plan",
+    do_zmiany: "do zmiany", brak_planu: "brak planu",
+  };
+  const poz = k => {
+    const c = k.kontakt;
+    if (!c || !c.osoba) return '<p class="kontakt"><span class="brak">brak osoby kontaktowej — uzupełnij kierunki.yaml → kontakt</span></p>';
+    const cz = [`<span class="osoba">${esc(c.osoba)}</span>`];
+    if (c.rola)  cz.push(`<span>${esc(c.rola)}</span>`);
+    if (c.pokoj) cz.push(`<span>pok. ${esc(c.pokoj)}</span>`);
+    if (c.tel)   cz.push(`<span>tel. ${esc(c.tel)}</span>`);
+    if (c.email) cz.push(`<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>`);
+    return `<p class="kontakt">${cz.join("")}</p>`;
+  };
+  document.getElementById("kontRoot").innerHTML = KIERUNKI.map(k => {
+    const st = k.status || "czekam";
+    return `<div class="kier-card st-${st}"><header>` +
+      `<h3>${esc(k.kod)} <span class="nazwa">${esc(k.nazwa || "")}</span></h3>` +
+      `<span class="st-badge st-${st}">${nazwaStatusu[st] || st}</span></header>` +
+      (k.status_opis ? `<p class="opis">${esc(k.status_opis)}</p>` : "") +
+      poz(k) +
+      (k.sprawy && k.sprawy.length
+        ? `<ul class="sprawy">${k.sprawy.map(s => `<li>${esc(s)}</li>`).join("")}</ul>`
+        : "") +
+      "</div>";
+  }).join("");
+
+  document.getElementById("notatkiRoot").innerHTML = NOTATKI.length
+    ? `<ul class="sprawy">${NOTATKI.map(n => `<li>${esc(n)}</li>`).join("")}</ul>`
+    : "<p>Brak notatek.</p>";
+
+  const n = KIERUNKI.reduce((s, k) => s + (k.sprawy ? k.sprawy.length : 0), 0);
+  document.getElementById("sprawyN").textContent = n ? `(${n})` : "";
+})();
+
 // ===================== ZAKŁADKI =====================
 document.querySelector("nav.tabs").addEventListener("click", e => {
   const btn = e.target.closest("button[data-view]");
@@ -458,3 +774,4 @@ document.querySelector("nav.tabs").addEventListener("click", e => {
     s.hidden = s.id !== "v-" + btn.dataset.view;
 });
 </script>
+</html>

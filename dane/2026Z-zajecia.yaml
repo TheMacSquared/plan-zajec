@@ -1,0 +1,23 @@
+# Zajęcia w semestrze zimowym 2026/27 — jedyne źródło prawdy dla widoków.
+# Wypełniane po odczytaniu PDF-ów z pdf/2026Z/ (patrz skrypty/wyciagnij_bloki.py).
+#
+# forma: W = wykład, C = ćwiczenia, K = konsultacje
+# kier:  kod kierunku z kierunki.yaml, albo "Konsultacje" dla wpisów własnych
+# flagi: krótkie znaczniki pokazywane na bloku (np. "projekt", "propozycja 26/27")
+# zrodlo: plik PDF (i strona), z którego odczytano ten blok — do weryfikacji przy zmianach
+
+os_czasu: { od: "08:00", do: "16:00" }   # zakres osi w widoku kalendarza
+
+zajecia:
+  - { dzien: poniedziałek, od: "08:15", do: "09:00", kier: GP,    przedmiot: "Statystyka",                  forma: C, sala: "2.04 H", grupy: "gr 1–2 z 4", flagi: ["propozycja 26/27"], zrodlo: "gp__sst_26-27_zima-0911a.pdf" }
+  - { dzien: poniedziałek, od: "09:15", do: "10:00", kier: GP,    przedmiot: "Statystyka",                  forma: C, sala: "2.04 H", grupy: "gr 3–4 z 4", flagi: ["propozycja 26/27"], zrodlo: "gp__sst_26-27_zima-0911a.pdf" }
+  - { dzien: poniedziałek, od: "10:15", do: "12:00", kier: Konsultacje, przedmiot: "",                      forma: K, sala: "420G",   grupy: "-",          flagi: [] }
+  - { dzien: poniedziałek, od: "12:15", do: "14:00", kier: IDSaT, przedmiot: "Statystyka matematyczna",     forma: C, sala: "3.19 H", grupy: "gr 1",       flagi: ["projekt"], zrodlo: "idsik_sst_z_26-27__zima_projekt_1308.pdf s.1" }
+  - { dzien: wtorek,       od: "09:30", do: "10:15", kier: OZE,   przedmiot: "Statystyczna analiza danych", forma: W, sala: "2.02",   grupy: "całość",     flagi: ["propozycja", "akt. 27.08"], zrodlo: "ozeigo_2627_2_stopien_2_semestr.pdf s.1" }
+  - { dzien: wtorek,       od: "10:15", do: "11:15", kier: OZE,   przedmiot: "Statystyczna analiza danych", forma: C, sala: "2.02",   grupy: "1 slot",     flagi: ["propozycja", "akt. 27.08"], zrodlo: "ozeigo_2627_2_stopien_2_semestr.pdf s.1" }
+  - { dzien: środa,        od: "12:15", do: "14:00", kier: IBezp, przedmiot: "Analiza ryzyka",              forma: W, sala: "3.30 H", grupy: "całość",     flagi: ["projekt", "12 spotkań", "przen. z wt."], zrodlo: "rozkład IBezp rok IV sem.7 (zrzut ekranu), akt. 02.09.2026" }
+  - { dzien: środa,        od: "14:15", do: "16:00", kier: IBezp, przedmiot: "Analiza ryzyka",              forma: C, sala: "3.30 H", grupy: "gr 1",       flagi: ["projekt", "12 spotkań", "przen. z wt."], zrodlo: "rozkład IBezp rok IV sem.7 (zrzut ekranu), akt. 02.09.2026" }
+  - { dzien: piątek,       od: "08:15", do: "10:00", kier: IDSaT, przedmiot: "Statystyka matematyczna",     forma: W, sala: "II G",   grupy: "całość",     flagi: ["projekt"], zrodlo: "idsik_sst_z_26-27__zima_projekt_1308.pdf s.1" }
+  - { dzien: piątek,       od: "10:15", do: "11:00", kier: Konsultacje, przedmiot: "",                      forma: K, sala: "420G",   grupy: "-",          flagi: [] }
+  - { dzien: piątek,       od: "11:15", do: "12:00", kier: GP,    przedmiot: "Statystyka",                  forma: W, sala: "I M",    grupy: "całość",     flagi: ["propozycja 26/27"], zrodlo: "gp__sst_26-27_zima-0911a.pdf" }
+  - { dzien: piątek,       od: "12:15", do: "14:00", kier: IDSaT, przedmiot: "Statystyka matematyczna",     forma: C, sala: "2.05 H", grupy: "gr 2 i 3",   flagi: ["projekt"], zrodlo: "idsik_sst_z_26-27__zima_projekt_1308.pdf s.1" }

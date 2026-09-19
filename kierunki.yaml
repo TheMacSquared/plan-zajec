@@ -1,39 +1,59 @@
 # Baza kierunków — stała z roku na rok (aktualizować tylko gdy zmieni się URL).
 # skrot: kod kierunku używany w przydziałach (kolumna "kierunek")
 # plany_url: strona wydziału z rozkładami zajęć (PDF-y do rozpoznania po roku/semestrze/trybie)
+# kontakt:   osoba odpowiedzialna za plan na kierunku/wydziale — do kogo pisać w sprawie
+#            zmiany sali, godzin, łączenia grup. Zmienia się rzadko, więc trzymamy tu,
+#            a nie w plikach rocznych (stan/<rok>.yaml).
 
 kierunki:
   GP:
     nazwa: "Gospodarka przestrzenna"
     wydzial: "Wydział Gospodarki Przestrzennej i Architektury Krajobrazu"
     plany_url: "https://wgpiak.upwr.edu.pl/studia/kierunki-studiow/gospodarka-przestrzenna/rozklady-zajec"
+    kontakt:
+      osoba: "Sławomir Nowak"
+      rola: "plan zajęć"
+      pokoj: "114 M"
+      tel: "wew. 5520"
+      email: "slawomir.nowak@upwr.edu.pl"
 
   IDSaT:
     nazwa: "Inżynieria danych satelitarnych i kosmicznych"
     wydzial: "Wydział Inżynierii Kształtowania Środowiska i Geodezji"
     plany_url: "https://wiksig.upwr.edu.pl/studia/kierunki-studiow/inzynieria-danych-satelitarnych-i-kosmicznych/rozklady-zajec"
+    kontakt: null   # TODO: kto odpowiada za plan na IDSaT?
 
   IBezp:
     nazwa: "Inżynieria bezpieczeństwa"
     wydzial: "Wydział Inżynierii Kształtowania Środowiska i Geodezji"
     plany_url: "https://wiksig.upwr.edu.pl/studia/kierunki-studiow/inzynieria-bezpieczenstwa/rozklady-zajec"
+    kontakt: null   # TODO: kto odpowiada za plan na IBezp?
 
   OZE:
     nazwa: "Odnawialne źródła energii i gospodarka odpadami"
     wydzial: "Wydział Przyrodniczo-Technologiczny"
     plany_url: "https://wpt.upwr.edu.pl/studia/kierunki-studiow/odnawialne-zrodla-energii-i-gospodarka-odpadami/plany-zajec"
+    kontakt:
+      osoba: "Maria Kozłowska"
+      rola: "plan zajęć"
+      pokoj: null
+      tel: "71 320 1543"
+      email: "maria.kozlowska@upwr.edu.pl"
 
   TZyw:
     nazwa: "Technologia żywności i żywienie człowieka"   # do potwierdzenia
     wydzial: null
     plany_url: null   # TODO: podaj URL
+    kontakt: null   # TODO
 
   ZJiAZ:
     nazwa: "Zarządzanie jakością i analiza żywności"   # do potwierdzenia
     wydzial: null
     plany_url: null   # TODO: podaj URL
+    kontakt: null   # TODO
 
   Rol:
     nazwa: "Rolnictwo"   # do potwierdzenia
     wydzial: null
     plany_url: null   # TODO: podaj URL
+    kontakt: null   # TODO
